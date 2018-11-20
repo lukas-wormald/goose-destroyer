@@ -1,9 +1,9 @@
 #include "initialization.c"
 #include "TankFileRead.c"
 #include "calculations.c"
-#include "moveAndCheck.c"
+#include "tankMovements.c"
 #include "fire.c"
-#include "writeStats.c"
+#include "calculateStats.c"
 #include "gooseCheck.c"
 //IF WE HAVE TIME #include "attacked.c"
 
@@ -81,5 +81,5 @@ task main()
 
 	float totalTime = time1[T1] / 1000;
 
-	writeStatsToFile(totalTime, numGeeseShot, missionStatus, ammoRemaining, totalTargets);
+	calculateStats(totalTime, numGeeseShot, missionStatus, NUMBALLS - ammoRemaining, totalTargets);
 }
