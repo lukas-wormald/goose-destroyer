@@ -6,8 +6,7 @@ bool attacked()
 {
 	if (SensorValue(touch) == 1)
 		return true;
-	else
-		return false;
+	return false;
 }
 
 #endif
