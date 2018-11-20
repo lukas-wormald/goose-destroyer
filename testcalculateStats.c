@@ -9,9 +9,11 @@ void calculateStats(int runTime, int numGeeseShot, bool needReload, string missi
 
 		runTime = time1[T1] / 1000;
 		writeLongPC(fout,runTime);
+		writeTextPC(fout, "seconds");
 		writeEndlPC(fout);
 		numGeeseShot = targetsShot;
 		writeLongPC(fout,numGeeseShot);
+		writeTextPC(fout, "geese shot");
 		writeEndlPC(fout);
 		if (ammoRemaining < 8)
 			needReload = true;
