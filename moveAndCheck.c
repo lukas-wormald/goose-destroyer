@@ -40,13 +40,13 @@ void turnAngle (Tank & tank0, float rotation)  //TESTED  WORKS BEST WHEN SLOWER 
 	resetGyro(gyro);
 	bool isAttacked = false;
 
-	displayString(3, "Gyro: %d       ", getGyroDegrees(gyro)/180.0 * PI);
+	displayString(3, "Gyro: %d       ", getGyroRadians());
 	displayString(2, "Direction: %d       ", rotation);
-	while(direction*rotation > direction * (-getGyroDegrees(gyro)/180.0 * PI+ tank0.angle) && !isAttacked)
+	while(direction*rotation > direction * (-getGyroRadians()+ tank0.angle) && !isAttacked)
 	{
 		isAttacked = attacked();
 	}
-	displayString(3, "Gyro: %d       ", getGyroDegrees(gyro)/180.0 * PI);
+	displayString(3, "Gyro: %d       ", getGyroRadians());
 	motor[leftMotor] = motor[rightMotor] = 0;
 	tank0.angle=-getGyroDegrees(gyro)/180.0 * PI + tank0.angle;
 }
@@ -80,6 +80,16 @@ void returnHome(Tank & tank0)
 	home.y=0;
 	moveToCoordinate(tank0, home);
 	turnAngle(tank0, 0);
+}
+
+float getGyroRadians()
+{
+	return degToRad(getGyroDegrees(gyro));
+}
+
+float degToRad(float degrees)
+{
+	return degrees/180*PI;
 }
 
 #endif
