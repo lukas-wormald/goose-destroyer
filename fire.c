@@ -10,9 +10,9 @@
 void reload()
 {
 	nMotorEncoder(hopperMotor) = 0;
-	motor[hopperMotor] = 20;
+	motor[hopperMotor] = 10;
 	//bool isAttacked = false;
-	while(nMotorEncoder(hopperMotor) < 360/NUMBALLS)// && !isAttacked)
+	while(nMotorEncoder(hopperMotor) < 360/NUMBALLS-1)// && !isAttacked)
 	{
 		//isAttacked = attacked();
 	}
@@ -28,6 +28,19 @@ void fire()
 	{}
 	motor[firingMotor] = 0;
 	reload();
+}
+
+//testing main
+/*
+task main()
+{
+
+	TEV3Buttons buttonPressed = getButtonPressed();
+	while (getButtonPressed() != buttonEnter)
+	{
+		reload();
+	}
+*/
 }
 
 #endif
