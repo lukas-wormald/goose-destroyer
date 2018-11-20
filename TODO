@@ -4,6 +4,7 @@ TODO:
 -Lukas: Test Mission Stats Diplay
 -Look into gyro calibration, etc
 -MAXNUMTARGETS vs NUMBALLS - choose one and update all files
--Function to convert radians to degrees (and back)
+-Function to convert radians to degrees (and back) - added to MoveAndCheck.c
+-Difference between MoveAndCheck and TankMovaments?
 
 -Log To File function - whenever robot shoots or moves.
