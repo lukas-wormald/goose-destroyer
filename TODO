@@ -1,8 +1,9 @@
 TODO:
 
 -Caleb: Test the rotation and verify if the gyro works or not.
--Lukas: Test Mission Stast Diplay
+-Lukas: Test Mission Stats Diplay
 -Look into gyro calibration, etc
 -MAXNUMTARGETS vs NUMBALLS - choose one and update all files
+-Function to convert radians to degrees (and back)
 
 -Log To File function - whenever robot shoots or moves.
