@@ -11,6 +11,17 @@
 //TANK OPERATIONS
 //TANK MOTION
 //driveForward set distance
+
+float degToRad(float degrees)
+{
+	return degrees/180*PI;
+}
+
+float getGyroRadians()
+{
+	return degToRad(getGyroDegrees(gyro));
+}
+
 void drive (float distance) //TESTED Can Drive set distances
 {
 	nMotorEncoder[leftMotor] = 0;
@@ -33,14 +44,15 @@ void turnAngle (Tank & tank0, float rotation)  //TESTED  WORKS BEST WHEN SLOWER 
 		direction = -1;
 	}
 	//default is counter clockwise
-	motor[leftMotor] = direction * SPEED / 3;
-	motor[rightMotor] = - direction * SPEED / 3;
+	motor[leftMotor] = direction * SPEED / 4;
+	motor[rightMotor] = - direction * SPEED / 4;
+	bool isAttacked = false;
 	resetGyro(gyro);
-	while(direction*rotation > direction * (-getGyroDegrees(gyro)/180.0 * PI+ tank0.angle))
+	while(direction*rotation > direction * (-getGyroRadians()+ tank0.angle) && !isAttacked)
 	{
 		/////ADD IN CHECK FOR ATTACK
 	}
-	displayString(3, "Gyro: %f       ", getGyroDegrees(gyro) /180 * PI);
+	displayString(3, "Gyro: %f       ", getGyroRadians());
 	displayString(2, "Direction: %f       ", rotation);
 	motor[leftMotor] = motor[rightMotor] = 0;
 	tank0.angle=rotation;
@@ -49,8 +61,10 @@ void turnAngle (Tank & tank0, float rotation)  //TESTED  WORKS BEST WHEN SLOWER 
 //Tank will stop on specific Coordinate
 void moveToCoordinate(Tank & tank0, Coordinate const & destination)
 {
+	displayString(8, "Old Angle: %f", tank0.angle);
 	turnAngle(tank0, angleBetween(tank0.location, destination));
 	drive(distToCoordinate(tank0.location, destination));
+	displayString(9, "New Angle: %f", tank0.angle);
 	tank0.location.x = destination.x;
 	tank0.location.y = destination.y;
 }

@@ -13,6 +13,7 @@ float distToCoordinate (Coordinate const & tank0Loc, Coordinate const & target)
 	return sqrt(pow(tank0Loc.x - target.x, 2) + pow(tank0Loc.y - target.y, 2));
 }
 
+
 //Angle between tank and target Coordinate in radians
 float angleBetween (Coordinate const & tank0Loc, Coordinate const & target)
 {
@@ -20,21 +21,19 @@ float angleBetween (Coordinate const & tank0Loc, Coordinate const & target)
 	float dely = target.y - tank0Loc.y;
 
 
-
 	//range of arctan is -PI/2 to PI/2
-	if (delx<0)
-	{
+	if (delx<0 && dely>=0)
 		return atan(dely / delx) + PI;
-	}
+	else if (abs(delx) < TOL && dely > 0)
+		return PI / 2.0;
+	else if (abs(delx) < TOL && dely < 0)
+		return -(PI / 2.0);
+	else if (delx<0 && dely<0)
+		return atan(dely / delx) - PI;
 	else if (delx>0)
 		return atan(dely / delx);
-	else if (delx < TOL && dely > 0)
-		return PI/2;
-	else if (delx < TOL && dely < 0)
-		return -PI/2;
 	else // no change at all
 		return 0;
-
 }
 
 //Coordinate of the closest firing position, used to redefine tank location
