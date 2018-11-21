@@ -4,7 +4,7 @@
 int ammoRemaining = 0;
 
 
-void calculateStats(int runTime, int numGeeseShot, string missionStatus, int targetsShot, int totalTargets)
+void calculateStats(int runTime, string missionStatus, int targetsShot, int totalTargets, bool isAttacked)
 
 {
 
@@ -22,9 +22,7 @@ void calculateStats(int runTime, int numGeeseShot, string missionStatus, int tar
 
 	writeEndlPC(fout);
 
-	numGeeseShot = targetsShot;
-
-	writeLongPC(fout,numGeeseShot);
+	writeLongPC(fout, targetsShot);
 
 	writeTextPC(fout, " geese shot");
 
@@ -44,7 +42,15 @@ void calculateStats(int runTime, int numGeeseShot, string missionStatus, int tar
 	}
 
 
-	if(totalTargets - targetsShot == 0)
+	if (isAttacked)
+	{
+		missionStatus = "Mission was a Failure";
+
+		writeTextPC(fout, "Mission was a Failure");
+
+		writeEndlPC(fout);
+	}
+	else if(totalTargets - targetsShot == 0)
 	{
 		missionStatus = "Mission was a Success!";
 
@@ -52,7 +58,7 @@ void calculateStats(int runTime, int numGeeseShot, string missionStatus, int tar
 
 		writeEndlPC(fout);
 	}
-	else if (totalTargets - targetsShot != 0)
+	else (totalTargets - targetsShot != 0)
 	{
 		missionStatus = "Mission was a Failure";
 

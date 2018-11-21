@@ -7,40 +7,31 @@
 //FIRING
 
 //loads the next ball into the shooting position
-void reload()
+void reload(bool & isAttacked)
 {
 	nMotorEncoder(hopperMotor) = 0;
 	motor[hopperMotor] = 10;
-	//bool isAttacked = false;
 	while(nMotorEncoder(hopperMotor) < 360/NUMBALLS-1)// && !isAttacked)
 	{
-		//isAttacked = attacked();
+		isAttacked = attacked();
 	}
 	motor[hopperMotor] = 0;
 }
 
 //FIRE
-void fire()
+void fire(bool & isAttacked)
 {
 	nMotorEncoder[firingMotor] = 0;
 	motor[firingMotor] = FIRESPEED;
 	while(nMotorEncoder[firingMotor] > -360)
-	{}
+	{
+		isAttacked = attacked();
+	}
 	motor[firingMotor] = 0;
-	reload();
+	reload(isAttacked);
 }
 
-//testing main
-/*
-task main()
-{
 
-	TEV3Buttons buttonPressed = getButtonPressed();
-	while (getButtonPressed() != buttonEnter)
-	{
-		reload();
-	}
-*/
 
 
 #endif
