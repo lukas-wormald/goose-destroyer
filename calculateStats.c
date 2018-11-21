@@ -4,7 +4,7 @@
 int ammoRemaining = 0;
 
 
-void calculateStats(int runTime, string missionStatus, int targetsShot, int totalTargets, bool isAttacked)
+void calculateStats(int runTime, string missionStatus, int targetsShot, int totalTargets, bool isAttacked, int outOfRange)
 
 {
 
@@ -25,6 +25,10 @@ void calculateStats(int runTime, string missionStatus, int targetsShot, int tota
 	writeLongPC(fout, targetsShot);
 
 	writeTextPC(fout, " geese shot");
+
+	writeEndlPC(fout);
+
+	writeTextPC(fout, "%d targets were out of range", outOfRange);
 
 	writeEndlPC(fout);
 
@@ -58,7 +62,7 @@ void calculateStats(int runTime, string missionStatus, int targetsShot, int tota
 
 		writeEndlPC(fout);
 	}
-	else (totalTargets - targetsShot != 0)
+	else
 	{
 		missionStatus = "Mission was a Failure";
 

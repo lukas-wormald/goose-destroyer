@@ -25,6 +25,7 @@ task main()
 	string missionStatus = "";
 	int totalTargets = 0;
 	bool isAttacked = false;
+	int outOfRange = 0;
 
 	Coordinate oldBot;
 	oldBot.x=0;
@@ -43,7 +44,7 @@ task main()
 	openReadPC(finCoords,"CoordinateTesting.txt");
 	totalTargets = readCoordinates(locationsAtIndex, finCoords);
 	closeFilePC(finCoords);
-//TESTING
+	//TESTING
 	time1[T1]=0;
 	int currentTarget = 0;
 	while(currentTarget < totalTargets)
@@ -62,7 +63,7 @@ task main()
 			currentTarget ++;
 		}
 	}
-//TESTING DONE
+	//TESTING DONE
 
 	//WHAT WE ACTUALLY WANT
 	//STRETCH find how to check if attacked
@@ -73,14 +74,20 @@ task main()
 	int targetsShot = 0;
 	for(int currentTarget = 0; currentTarget<totalTargets && ammoRemaining >= 1 && !isAttacked; currentTarget++)
 	{
-		moveToFiringLocation(gooseDestroyer, locationsAtIndex.locations[currentTarget], isAttacked);
-		shootTheGoose(ammoRemaining, gooseDestroyer, isAttacked);
-		targetsShot = currentTarget+1;
+		//Will only go to a target if it is in range
+		if(distToRange(gooseDestroyer.location, locationsAtIndex.locations[currentTarget]) / BOTSPEED < 5 * 60)
+		{
+			moveToFiringLocation(gooseDestroyer, locationsAtIndex.locations[currentTarget], isAttacked);
+			shootTheGoose(ammoRemaining, gooseDestroyer, isAttacked);
+			targetsShot = currentTarget+1;
+		}
+		else
+			outOfRange++;
 	}
 
 	returnHome(gooseDestroyer, isAttacked);
 
 	float totalTime = time1[T1] / 1000;
 
-	calculateStats(totalTime, missionStatus, ammoRemaining, totalTargets, isAttacked);
+	calculateStats(totalTime, missionStatus, ammoRemaining, totalTargets, isAttacked, outOfRange);
 }

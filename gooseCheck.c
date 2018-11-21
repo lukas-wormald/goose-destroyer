@@ -11,6 +11,7 @@ bool checkForGoose(bool & isAttacked)
 		wait1Msec (1);
 		isAttacked = attacked();
 	}
+	displayString(5, "%d", SensorValue(ultraSonic));
 	return (RANGE - GOOSETOL < SensorValue(ultraSonic) && RANGE + GOOSETOL > SensorValue(ultraSonic));
 }
 
@@ -24,6 +25,9 @@ void shootTheGoose(int & ammoRemaining, Tank & tank1, bool & isAttacked)
 		fire(isAttacked);
 		ammoRemaining --;
 		gooseIsThere = checkForGoose(isAttacked);
+		if (gooseIsThere)
+		{
+		}
 	}
 }
 

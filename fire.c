@@ -22,8 +22,8 @@ void reload(bool & isAttacked)
 void fire(bool & isAttacked)
 {
 	nMotorEncoder[firingMotor] = 0;
-	motor[firingMotor] = FIRESPEED;
-	while(nMotorEncoder[firingMotor] > -360)
+	motor[firingMotor] = -FIRESPEED;
+	while(nMotorEncoder[firingMotor] < 360)
 	{
 		isAttacked = attacked();
 	}
