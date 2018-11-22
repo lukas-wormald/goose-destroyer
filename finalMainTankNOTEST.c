@@ -56,11 +56,20 @@ task main()
 		{
 			oldBot.x=gooseDestroyer.location.x;
 			oldBot.y=gooseDestroyer.location.y;
-			displayString(4, "Old Bot: %d, %d", gooseDestroyer.location.x, gooseDestroyer.location.y);
+
+			displayString(4, "Old Bot: %d, %d       ", gooseDestroyer.location.x, gooseDestroyer.location.y);
 			displayString(5, "Target: %d, %d       ", locationsAtIndex.locations[currentTarget].x, locationsAtIndex.locations[currentTarget].y);
 
-			moveToCoordinate(gooseDestroyer, locationsAtIndex.locations[currentTarget], isAttacked);
-			currentTarget ++;
+			//Will only go to a target if it is in range
+			if(distToRange(gooseDestroyer.location, locationsAtIndex.locations[currentTarget]) / BOTSPEED < 5 * 60)
+			{
+				moveToFiringLocation(gooseDestroyer, locationsAtIndex.locations[currentTarget], isAttacked);
+				shootTheGoose(ammoRemaining, gooseDestroyer, isAttacked);
+				//targetsShot = currentTarget+1;
+			}
+			else
+				outOfRange++;
+			currentTarget++;
 		}
 	}
 	//TESTING DONE

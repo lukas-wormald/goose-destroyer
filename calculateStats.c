@@ -28,7 +28,9 @@ void calculateStats(int runTime, string missionStatus, int targetsShot, int tota
 
 	writeEndlPC(fout);
 
-	writeTextPC(fout, "%d targets were out of range", outOfRange);
+	writeTextPC(fout, "Targets out of range: ");
+
+	writeLongPC(fout, outOfRange);
 
 	writeEndlPC(fout);
 

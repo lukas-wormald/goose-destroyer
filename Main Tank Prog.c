@@ -52,10 +52,7 @@ task main()
 
 		if(buttonPressed == buttonEnter)
 		{
-			displayString(4, "Old Bot: %d, %d       ", gooseDestroyer.location.x, gooseDestroyer.location.y);
-			displayString(5, "Target: %d, %d       ", locationsAtIndex.locations[currentTarget].x, locationsAtIndex.locations[currentTarget].y);
-
-			moveToCoordinate(gooseDestroyer, locationsAtIndex.locations[currentTarget]);
+			moveToCoordinate(gooseDestroyer, locationsAtIndex.locations[currentTarget], isAttacked);
 			currentTarget ++;
 		}
 	}

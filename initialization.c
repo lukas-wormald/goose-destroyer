@@ -4,9 +4,10 @@
 //Constants
 const int MAXNUMTARGETS = 8;
 //Avg firing distance of robot
-const float RANGE = 74.22;
-const float OFFSETANGLE = 14;
-const int SPEED = 50;
+const float RANGE = 60;
+const float OFFSETANGLE = 14;//degrees
+const int SPEED = -50;
+const int TURNSPEED = SPEED / 2;
 const int NUMBALLS = 8;
 const int FIRESPEED = 100;
 const float GEARRADIUS = 2.475;
@@ -22,7 +23,7 @@ const tMotor firingMotor = motorC;
 
 //Naming Sensors
 const tSensors touch1 = S1;
-const tSensors touch2 = S2
+const tSensors touch2 = S2;
 const tSensors ultraSonic = S3;
 const tSensors gyro = S4;
 

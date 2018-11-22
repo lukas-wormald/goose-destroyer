@@ -21,8 +21,11 @@ float getGyroRadians()
 void drive (float distance, bool & isAttacked) //TESTED Can Drive set distances
 {
 	nMotorEncoder[leftMotor] = 0;
-	motor[leftMotor] = motor[rightMotor] = -SPEED; //Needs to be negative to go forward
-	while(-nMotorEncoder[leftMotor] / 360.0 * GEARRADIUS * 2 * PI < distance )
+	int direction = 1; // going forward
+	if (distance<0)
+		direction = -1;
+	motor[leftMotor] = motor[rightMotor] = direction * SPEED; //Needs to be negative to go forward
+	while(direction * (-nMotorEncoder[leftMotor] / 360.0 * GEARRADIUS * 2 * PI) < direction * distance )
 	{
 		isAttacked = attacked();
 	}
@@ -32,24 +35,26 @@ void drive (float distance, bool & isAttacked) //TESTED Can Drive set distances
 void turnAngle (Tank & tank0, float rotation, bool & isAttacked)  //TESTED  WORKS BEST WHEN SLOWER SPEED
 {
 	//1 counter clockwise
+	float turn = minTankTurn(tank0, rotation);
 	int direction = 1;
-	if (rotation-tank0.angle<0)
+	if (turn<0)
 	{
 		//turn clockwise
 		direction = -1;
 	}
 	//default is counter clockwise
-	motor[leftMotor] = direction * SPEED / 4;
-	motor[rightMotor] = - direction * SPEED / 4;
+	motor[leftMotor] = - direction * TURNSPEED;
+	motor[rightMotor] = direction * TURNSPEED;
 	resetGyro(gyro);
-	while(direction*rotation > direction * (-getGyroRadians()+ tank0.angle))
+	wait1Msec(20);
+	displayString(2, "Direction: %f       ", turn);
+	while(direction*turn > direction * -getGyroRadians())
 	{
 		isAttacked = attacked();
 	}
-	displayString(3, "Gyro: %f       ", getGyroRadians());
-	displayString(2, "Direction: %f       ", rotation);
 	motor[leftMotor] = motor[rightMotor] = 0;
-	tank0.angle=rotation;
+	displayString(3, "Gyro: %f       ", -getGyroRadians());
+	tank0.angle=turn;
 }
 
 //Tank will stop on specific Coordinate
@@ -68,7 +73,7 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 {
 	turnAngle(tank0,angleBetween(tank0.location, target), isAttacked);
 	drive(distToRange(tank0.location, target), isAttacked);
-	turnAngle(OFFSETANGLE, isAttacked);
+	turnAngle(tank0, tank0.angle-degToRad(OFFSETANGLE), isAttacked); //compensate for consistently angled firing
 	Coordinate finalLocation;
 	finalLocation.x=0;
 	finalLocation.y=0;
@@ -86,5 +91,6 @@ void returnHome(Tank & tank0, bool & isAttacked)
 	moveToCoordinate(tank0, home, isAttacked);
 	turnAngle(tank0, 0, isAttacked);
 }
+
 
 #endif
