@@ -38,6 +38,8 @@ task main()
 {
 	while(true)
 	{
+		displayString(1,"STARTED");
+		TEV3Buttons buttonPressed = getButtonPressed();
 		bool garbage = false;
 		fire(garbage);
 		wait1Msec(2000);

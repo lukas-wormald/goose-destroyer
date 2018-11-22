@@ -4,11 +4,7 @@
 #ifndef TANK_MOVEMENTS
 #define TANK_MOVEMENTS
 
-//IMPLEMENT ATTACKING IF WE HAVE TIME
-
 //Tank Movements
-
-//TANK OPERATIONS
 //TANK MOTION
 //driveForward set distance
 
@@ -26,7 +22,7 @@ void drive (float distance, bool & isAttacked) //TESTED Can Drive set distances
 {
 	nMotorEncoder[leftMotor] = 0;
 	motor[leftMotor] = motor[rightMotor] = -SPEED; //Needs to be negative to go forward
-	while(-nMotorEncoder[leftMotor] / 360.0 * GEARRADIUS * 2 * PI < distance )//&& !isAttacked)
+	while(-nMotorEncoder[leftMotor] / 360.0 * GEARRADIUS * 2 * PI < distance )
 	{
 		isAttacked = attacked();
 	}
@@ -46,7 +42,7 @@ void turnAngle (Tank & tank0, float rotation, bool & isAttacked)  //TESTED  WORK
 	motor[leftMotor] = direction * SPEED / 4;
 	motor[rightMotor] = - direction * SPEED / 4;
 	resetGyro(gyro);
-	while(direction*rotation > direction * (-getGyroRadians()+ tank0.angle) && !isAttacked)
+	while(direction*rotation > direction * (-getGyroRadians()+ tank0.angle))
 	{
 		isAttacked = attacked();
 	}
@@ -72,6 +68,7 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 {
 	turnAngle(tank0,angleBetween(tank0.location, target), isAttacked);
 	drive(distToRange(tank0.location, target), isAttacked);
+	turnAngle(OFFSETANGLE, isAttacked);
 	Coordinate finalLocation;
 	finalLocation.x=0;
 	finalLocation.y=0;
