@@ -22,9 +22,9 @@ void reload(bool & isAttacked)
 void fire(bool & isAttacked)
 {
 	nMotorEncoder[firingMotor] = 0;
-	motor[firingMotor] = -FIRESPEED;
-	while(nMotorEncoder[firingMotor] < 360)
-	{
+	motor[firingMotor] = FIRESPEED;
+	while(nMotorEncoder[firingMotor] < 718) //720 because NXT motor only rotated halfway with 360
+	{				//-10 for offset
 		isAttacked = attacked();
 	}
 	motor[firingMotor] = 0;
@@ -32,6 +32,17 @@ void fire(bool & isAttacked)
 }
 
 
+//testing MAIN
+
+task main()
+{
+	while(true)
+	{
+		bool garbage = false;
+		fire(garbage);
+		wait1Msec(2000);
+	}
+}
 
 
 #endif
