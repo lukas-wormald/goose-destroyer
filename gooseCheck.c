@@ -6,7 +6,8 @@
 
 bool checkForGoose(bool & isAttacked)
 {
-	for (int count = 0; count < 1000 && !isAttacked; count ++)
+	time1[T2] = 0;	
+	while(time1[T2] < 1000)
 	{
 		wait1Msec (1);
 		isAttacked = attacked();
