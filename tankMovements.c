@@ -73,15 +73,16 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 {
 	turnAngle(tank0,angleBetween(tank0.location, target), isAttacked);
 	drive(distToRange(tank0.location, target), isAttacked);
-	turnAngle(tank0, tank0.angle-degToRad(OFFSETANGLE), isAttacked); //compensate for consistently angled firing
+	//turnAngle(tank0, tank0.angle-degToRad(OFFSETANGLE), isAttacked); //compensate for consistently angled firing
 	Coordinate finalLocation;
 	finalLocation.x=0;
 	finalLocation.y=0;
 	findFiringPosition(tank0.location, target, finalLocation);
-	tank0.location.x = finalLocation.x;
-	tank0.location.y = finalLocation.y;
-}
+	tank0.location.x += finalLocation.x;
+	tank0.location.y += finalLocation.y;
 
+
+}
 
 void returnHome(Tank & tank0, bool & isAttacked)
 {

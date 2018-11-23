@@ -10,10 +10,10 @@ const int SPEED = -50;
 const int TURNSPEED = SPEED / 2;
 const int NUMBALLS = 8;
 const int FIRESPEED = 100;
-const float GEARRADIUS = 2.475;
+const float GEARRADIUS = 2.52;
 const float GOOSETOL = 20;
 const float TOL = 1*pow(10,-2);
-const float BOTSPEED = 1.0/23; //meters / second
+const float BOTSPEED = 100/4.9; //centimeters / second
 
 //Naming Motors
 const tMotor leftMotor = motorA;

@@ -44,7 +44,10 @@ task main()
 	openReadPC(finCoords,"CoordinateTesting.txt");
 	totalTargets = readCoordinates(locationsAtIndex, finCoords);
 	closeFilePC(finCoords);
-	//TESTING
+
+
+
+
 	time1[T1]=0;
 	int currentTarget = 0;
 	while(currentTarget < totalTargets)
@@ -70,6 +73,8 @@ task main()
 			else
 				outOfRange++;
 			currentTarget++;
+
+			displayString (8, "Current Location: %d, %d        ", gooseDestroyer.location.x, gooseDestroyer.location.y);
 		}
 	}
 	//TESTING DONE
