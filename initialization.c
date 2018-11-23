@@ -4,22 +4,22 @@
 //Constants
 const int MAXNUMTARGETS = 8;
 //Avg firing distance of robot
-const float RANGE = 60;
-const float OFFSETANGLE = 14;//degrees
-const int SPEED = -50;
+const float RANGE = 60; //distance the the robot will shoot
+const float OFFSETANGLE = 14;//degrees CCW, the offset that the ball shoots from the center of the bot
+const int SPEED = -50; //because motors mounted backwards
 const int TURNSPEED = SPEED / 2;
-const int NUMBALLS = 8;
+const int NUMBALLS = 8; //number of balls that the tank starts with
 const int FIRESPEED = 100;
-const float GEARRADIUS = 2.52;
+const float GEARRADIUS = 2.52; //calculated based on distance traveled with currently set gear radius
 const float GOOSETOL = 20;
-const float TOL = 1*pow(10,-2);
-const float BOTSPEED = 100/4.9; //centimeters / second
+const float TOL = 1*pow(10,-2); //tolerance used for comparing floats
+const float BOTSPEED = 100/4.9; //centimeters / second used to calculate shots out of range
 
 //Naming Motors
-const tMotor leftMotor = motorA;
-const tMotor rightMotor = motorD;
-const tMotor hopperMotor = motorB;
-const tMotor firingMotor = motorC;
+const tMotor leftMotor = motorA; //large in tracks
+const tMotor rightMotor = motorD; //large in tracks
+const tMotor hopperMotor = motorB; //EV3 medium
+const tMotor firingMotor = motorC; //NXT large
 
 //Naming Sensors
 const tSensors touch1 = S1;
@@ -31,18 +31,27 @@ const tSensors gyro = S4;
 const int WIDTH = 178;
 const int HEIGHT = 128;
 
+//Notes on timers
+//T1 used for mission timing
+//T2 used for waiting for goose checking
+
 // Structs
+
+//Stores an X and Y value that represent the location of the tank on a standard cartesian plane, in cm
 typedef struct
 {
 	float x;
 	float y;
 }Coordinate;
 
+//Stores an array of coordinates that will represent all the targets that must be hit
 typedef struct
 {
 	Coordinate locations[MAXNUMTARGETS];
 }locArr;
 
+//tank position data
+//a coordinate in cm, and an angle from +x axis that the tank is currently facing, if it were at the origin
 typedef struct
 {
 	Coordinate location;
@@ -64,8 +73,10 @@ void setupSensors()
 	while(getGyroRate(gyro) != 0)
 	{}
 	resetGyro(gyro);
+	wait1Msec(50);
 }
 
+//initialize the targets array that is wrapped in a struct
 void setupLocArrStruct(locArr & setupStruct)
 {
 	for(int index = 0; index < MAXNUMTARGETS; index++)
@@ -75,6 +86,7 @@ void setupLocArrStruct(locArr & setupStruct)
 	}
 }
 
+//waits for a button to be pressed and returns that button
 TEV3Buttons getButtonPressed()
 {
     TEV3Buttons buttonPressed = buttonNone;
