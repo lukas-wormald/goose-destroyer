@@ -3,14 +3,14 @@
 #define CALCULATIONS
 //Calculations
 
-float distToRange (Coordinate const tank0Loc, Coordinate const target)
-{
-	return sqrt(pow(tank0Loc.x - target.x, 2) + pow(tank0Loc.y - target.y, 2)) - RANGE;
-}
-
-float distToCoordinate (Coordinate const tank0Loc, Coordinate const target)
+float distToCoordinate(Coordinate const tank0Loc, Coordinate const target)
 {
 	return sqrt(pow(tank0Loc.x - target.x, 2) + pow(tank0Loc.y - target.y, 2));
+}
+
+float distToRange(Coordinate const tank0Loc, Coordinate const target)
+{
+	return distToCoordinate(tank0Loc, target) - RANGE;
 }
 
 bool targetInRange(Tank const tank0, Coordinate const target)

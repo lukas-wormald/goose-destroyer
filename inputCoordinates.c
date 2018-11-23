@@ -17,7 +17,7 @@ void getCoordinates(Coordinate coord)
 
 	eraseDisplay();
 	drawLine(0, HEIGHT/2, WIDTH, HEIGHT/2);//horizontal line
-	drawLine(WIDTH/2,0,WIDTH/2+1,HEIGHT);//vertical line
+	drawLine(WIDTH/2,0,WIDTH/2+1,HEIGHT);//vertical line offset by 1 to make it visible, otherwise does not show
 	displayStringAt(0,8,"X=%d  ",xLoc);
 	displayStringAt(0,16,"Y=%d  ", yLoc);
 
@@ -30,13 +30,13 @@ void getCoordinates(Coordinate coord)
 		clearPixel(xLoc+WIDTH/2,yLoc+HEIGHT/2);
 
 		if(buttonPressed == buttonRight)
-			yLoc-=10;
-		else if (buttonPressed == buttonLeft)
-			yLoc+=10;
-		else if (buttonPressed == buttonUp)
 			xLoc+=10;
-		else if (buttonPressed == buttonDown)
+		else if (buttonPressed == buttonLeft)
 			xLoc-=10;
+		else if (buttonPressed == buttonUp)
+			yLoc+=10;
+		else if (buttonPressed == buttonDown)
+			yLoc-=10;
 		if(buttonPressed != buttonEnter)
 		{
 			setPixel(xLoc+WIDTH/2,yLoc+HEIGHT/2);
@@ -59,8 +59,7 @@ int getMultipleCoordinates(locArr & targetLocations)
 		eraseDisplay();
 		displayCenteredBigTextLine(3,"Enter Target?");
 		displayCenteredTextLine(6,"Center = YES  Other = NO");
-		//vertical line offset by 1 so that it is visible on the screen
-		//^for some weird reason
+
 		buttonPressed = getButtonPressed();
 		if(buttonPressed == buttonEnter)
 		{

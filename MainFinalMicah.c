@@ -1,18 +1,8 @@
 //final main with all versions of input
-#include "initialization.c"
-#include "TankFileRead.c"
-#include "calculations.c"
-#include "tankMovements.c"
-#include "fire.c"
-#include "calculateStats.c"
-#include "gooseCheck.c"
-#include "inputCoordinates.c"
-#include "welcome.c"
+#include "includes.c"
 
-//create struct for all the stats
-//include file for the includes
 //fix coordinates
-//check for goose turn back angle
+//check for goose turn back angle - this will require a little more reworking
 
 task main()
 {
@@ -20,41 +10,33 @@ task main()
 	setupSensors();
 	//Defining Variables
 	Tank gooseDestroyer;
-	gooseDestroyer.location.x=0;
-	gooseDestroyer.location.y=0;
-	gooseDestroyer.angle = 0;
-
-	int runTime = 0;
-	int numGeeseShot = 0;
-	int ammoRemaining = NUMBALLS;
-	int totalTargets = 0;
-	int targetsShot = 0;
-	bool isAttacked = false;
-	int outOfRange = 0;
-	string missionStatus = "";
+	initializeTank(gooseDestroyer);
 
 	locArr targets;
-	setupLocArrStruct(targets);
-	beginProgram(); //in welcome.c
-	totalTargets = getTargets(targets); //fills the array with targets based on user input
+	initializeLocArrStruct(targets);
+
+	Stats mission;
+	initializeStats(mission);
+
+	beginProgramMenu(); //in welcome.c
+	mission.totalTargets = getTargets(targets); //fills the array with targets based on user input
 
 	time1[T1] = 0;
-	for(int currentTarget = 0; currentTarget < totalTargets && ammoRemaining > 0 && !isAttacked; currentTarget++)
+	for(int currentTarget = 0; currentTarget < mission.totalTargets && mission.ammoRemaining > 0 && !mission.isAttacked; currentTarget++)
 	{
 		//if target is in range, shoot it, and increment counters
 		if(targetInRange(gooseDestroyer, targets.locations[currentTarget]))
 		{
-			moveToFiringLocation(gooseDestroyer, targets.locations[currentTarget], isAttacked);
-			shootTheGoose(ammoRemaining, gooseDestroyer, isAttacked);
-			targetsShot++;
+			moveToFiringLocation(gooseDestroyer, targets.locations[currentTarget], mission.isAttacked);
+			shootTheGoose(mission.ammoRemaining, gooseDestroyer, mission.isAttacked);
+			mission.targetsShot++;
 		}
 		else
-			outOfRange++;
+			mission.outOfRange++;
 	}
 
-	returnHome(gooseDestroyer, isAttacked);
-	runTime = time1[T1] / 1000;
-	//calculateStats(runTime, ammoRemaining, totalTargets, isAttacked, targetsShot, outOfRange);
-	calculateStats(runTime, missionStatus, targetsShot, totalTargets, isAttacked, outOfRange);
-
+	returnHome(gooseDestroyer, mission.isAttacked);
+	//mission.runTime = time1[T1] / 1000; //this is taken care of in calculate stats
+	//calculateStats(runTime, missionStatus, targetsShot, totalTargets, isAttacked, outOfRange);
+	calculateStats(mission);
 }

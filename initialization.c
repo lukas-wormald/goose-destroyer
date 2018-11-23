@@ -47,6 +47,12 @@ typedef struct
 	float y;
 }Coordinate;
 
+void initializeCoordinate(Coordinate coord)
+{
+	coord.x = 0;
+	coord.y = 0;
+}
+
 //Stores an array of coordinates that will represent all the targets that must be hit
 typedef struct
 {
@@ -60,6 +66,36 @@ typedef struct
 	Coordinate location;
 	float angle;
 }Tank;
+
+void initializeTank(Tank tank)
+{
+	tank.angle = 0;
+	initializeCoordinate(tank.location);
+}
+
+typedef struct
+{
+	int runTime;
+	int numGeeseShot;
+	int ammoRemaining;
+	int totalTargets;
+	int targetsShot;
+	bool isAttacked;
+	int outOfRange;
+	string missionStatus;
+}Stats;
+
+void initializeStats(Stats data)
+{
+		data.runTime = 0;
+		data.numGeeseShot = 0;
+		data.ammoRemaining = NUMBALLS;
+		data.totalTargets = 0;
+		data.targetsShot = 0;
+		data.isAttacked = false;
+		data.outOfRange = 0;
+		data.missionStatus = "";
+}
 
 //Setup Sensors
 //sets up the touch, ultrasonic, and gyro sensors
@@ -80,7 +116,7 @@ void setupSensors()
 }
 
 //initialize the targets array that is wrapped in a struct
-void setupLocArrStruct(locArr & setupStruct)
+void initializeLocArrStruct(locArr & setupStruct)
 {
 	for(int index = 0; index < MAXNUMTARGETS; index++)
 	{

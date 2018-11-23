@@ -4,6 +4,9 @@
 #ifndef TANK_MOVEMENTS
 #define TANK_MOVEMENTS
 
+#define CW -1
+#define CCW 1
+
 //Tank Movements
 //TANK MOTION
 //driveForward set distance
@@ -35,19 +38,14 @@ void drive (float distance, bool & isAttacked) //TESTED Can Drive set distances
 
 void turnAngle (Tank & tank0, float rotation, bool & isAttacked)  //TESTED  WORKS BEST WHEN SLOWER SPEED, HIGHER SPEED FOR TREADS
 {
-	//1 counter clockwise
 	float turn = minTankTurn(tank0, rotation);
-	int direction = 1;
+	int direction = CCW;
 	if (turn<0)
-	{
-		//turn clockwise
-		direction = -1;
-	}
-	//default is counter clockwise
-	motor[leftMotor] = - direction * TURNSPEED;
-	motor[rightMotor] = direction * TURNSPEED;
+		direction = CW;
 	resetGyro(gyro);
 	wait1Msec(20);
+	motor[leftMotor] = - direction * TURNSPEED;
+	motor[rightMotor] = direction * TURNSPEED;
 	displayString(2, "Direction: %f       ", turn);
 	while(direction*turn > direction * -getGyroRadians())
 	{
@@ -74,8 +72,7 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 	drive(distToRange(tank0.location, target), isAttacked);
 	turnAngle(tank0, tank0.angle-degToRad(OFFSETANGLE), isAttacked); //compensate for consistently angled firing
 	Coordinate finalLocation;
-	finalLocation.x=0;
-	finalLocation.y=0;
+	initializeCoordinate(finalLocation);
 	findFiringPosition(tank0.location, target, finalLocation);
 	tank0.location.x += finalLocation.x;
 	tank0.location.y += finalLocation.y;
@@ -84,8 +81,7 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 void returnHome(Tank & tank0, bool & isAttacked)
 {
 	Coordinate home;
-	home.x=0;
-	home.y=0;
+	initializeCoordinate(home);
 	moveToCoordinate(tank0, home, isAttacked);
 	turnAngle(tank0, 0, isAttacked);
 }

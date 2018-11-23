@@ -1,79 +1,44 @@
 #include "PC_FileIO.c"
+#include "initialization.c"
 #ifndef CALCULATE_STATS
 #define CALCULATE_STATS
 
 int ammoRemaining = 0;
 
-
-void calculateStats(int runTime, string missionStatus, int targetsShot, int totalTargets, bool isAttacked, int outOfRange)
-
+//void calculateStats(int runTime, string missionStatus, int targetsShot, int totalTargets, bool isAttacked, int outOfRange)
+void calculateStats(Stats mission)
 {
 
 	TFileHandle fout;
-
 	bool fileOkay = openWritePC(fout, "stats.txt");
 
-
-
-	runTime = time1[T1] / 1000;
-
-	writeLongPC(fout,runTime);
-
+	mission.runTime = time1[T1] / 1000;
+	writeLongPC(fout,mission.runTime);
 	writeTextPC(fout, " seconds");
-
 	writeEndlPC(fout);
 
-	writeLongPC(fout, targetsShot);
-
+	writeLongPC(fout, mission.targetsShot);
 	writeTextPC(fout, " geese shot");
-
 	writeEndlPC(fout);
 
 	writeTextPC(fout, "Targets out of range: ");
-
-	writeLongPC(fout, outOfRange);
-
+	writeLongPC(fout, mission.outOfRange);
 	writeEndlPC(fout);
 
-	if (ammoRemaining < 8)
-	{
+	if (mission.ammoRemaining < 8)
 		writeTextPC(fout, "Robot needs reloading");
-
-		writeEndlPC(fout);
-	}
-	else if (ammoRemaining == 8)
-	{
+	else if (mission.ammoRemaining >= 8)
 		writeTextPC(fout, "Robot does not need reloading");
+	writeEndlPC(fout);
 
-		writeEndlPC(fout);
-	}
-
-
-	if (isAttacked)
-	{
-		missionStatus = "Mission was a Failure";
-
-		writeTextPC(fout, "Mission was a Failure");
-
-		writeEndlPC(fout);
-	}
-	else if(totalTargets - targetsShot == 0)
-	{
-		missionStatus = "Mission was a Success!";
-
-		writeTextPC(fout, "Mission was a Success!");
-
-		writeEndlPC(fout);
-	}
+	if (mission.isAttacked)
+		mission.missionStatus = "Mission was a Failure";
+	else if(mission.totalTargets - mission.targetsShot == 0)
+		mission.missionStatus = "Mission was a Success!";
 	else
-	{
-		missionStatus = "Mission was a Failure";
-
-		writeTextPC(fout, "Mission was a Failure");
-
-		writeEndlPC(fout);
-	}
-
+		mission.missionStatus = "Mission was a Failure";
+	writeTextPC(fout, mission.missionStatus);
+	writeEndlPC(fout);
 
 	closeFilePC(fout);
 

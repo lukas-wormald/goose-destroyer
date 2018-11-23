@@ -1,13 +1,14 @@
 //this will be the first function run after the setup
+#ifndef WELCOME
+#define WELCOME
 
-void beginProgram() //displays the start of the program
+void beginProgramMenu() //displays the start of the program
 {
 	displayString(3, "Welcome to GOOSE DESTROYER!");
 	displayString(5, "To input file coordinates:");
 	displayString(6,  "press the up button");
 	displayString(8, "To manually select coordinates");
 	displayString(9, "please press the Down Button");
-	return;
 }
 
 //fills the array with the targets
@@ -36,11 +37,4 @@ int getTargets(locArr & targets)
 	return totalTargets;
 }
 
-
-
-/*
-task main()
-{
-
-}
-*/
+#endif
