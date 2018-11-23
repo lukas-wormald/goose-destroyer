@@ -4,16 +4,19 @@
 //Constants
 const int MAXNUMTARGETS = 8;
 //Avg firing distance of robot
-const float RANGE = 60; //distance the the robot will shoot
+const float RANGE = 65; //distance the the robot will shoot
 const float OFFSETANGLE = 14;//degrees CCW, the offset that the ball shoots from the center of the bot
 const int SPEED = -50; //because motors mounted backwards
-const int TURNSPEED = SPEED / 2;
+const int TURNSPEED = SPEED;
 const int NUMBALLS = 8; //number of balls that the tank starts with
 const int FIRESPEED = 100;
 const float GEARRADIUS = 2.52; //calculated based on distance traveled with currently set gear radius
-const float GOOSETOL = 20;
+const int GOOSETOL = 20;
 const float TOL = 1*pow(10,-2); //tolerance used for comparing floats
+
+//Range constants
 const float BOTSPEED = 100/4.9; //centimeters / second used to calculate shots out of range
+const int MAXSECONDSRANGE = 5*60; //5 minutes
 
 //Naming Motors
 const tMotor leftMotor = motorA; //large in tracks
@@ -23,7 +26,7 @@ const tMotor firingMotor = motorC; //NXT large
 
 //Naming Sensors
 const tSensors touch1 = S1;
-const tSensors touch2 = S2;
+//const tSensors touch2 = S2;
 const tSensors ultraSonic = S3;
 const tSensors gyro = S4;
 
@@ -63,7 +66,7 @@ typedef struct
 void setupSensors()
 {
 	SensorType[touch1] = sensorEV3_Touch;
-	SensorType[touch2] = sensorEV3_Touch;
+	//SensorType[touch2] = sensorEV3_Touch;
 	SensorType[ultraSonic] = sensorEV3_Ultrasonic;
 	SensorType[gyro] = sensorEV3_Gyro;
 	wait1Msec(50);

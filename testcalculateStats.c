@@ -1,8 +1,11 @@
+//TESTED AND WORKS, currently being used
+
+#ifndef TEST_CALCULATE_STATS
+#define TEST_CALCULATE_STATS
+
 #include "PC_FileIO.c"
-int ammoRemaining = 0;
-int targetsShot = 0;
-int totalTargets = 0;
-void calculateStats(int runTime, int numGeeseShot, bool needReload, string missionStatus,)
+
+void calculateStats(int runTime, int ammoRemaining, int totalTargets, bool isAttacked, int targetsShot, int outOfRange)
 	{
 		TFileHandle fout;
 		bool fileOkay = openWritePC(fout, "stats.txt");
@@ -35,6 +38,8 @@ void calculateStats(int runTime, int numGeeseShot, bool needReload, string missi
 
 			closeFilePC(fout);
 	}
+
+/*
 task main()
 {
 	int runTime = 0;
@@ -44,3 +49,6 @@ task main()
 	calculateStats(runTime,numGeeseShot,needReload,missionStatus);
 
 }
+*/
+
+#endif

@@ -2,17 +2,21 @@
 #ifndef CALCULATIONS
 #define CALCULATIONS
 //Calculations
-//Distance to closest firing position
-float distToRange (Coordinate const & tank0Loc, Coordinate const & target)
+
+float distToRange (Coordinate const tank0Loc, Coordinate const target)
 {
 	return sqrt(pow(tank0Loc.x - target.x, 2) + pow(tank0Loc.y - target.y, 2)) - RANGE;
 }
 
-float distToCoordinate (Coordinate const & tank0Loc, Coordinate const & target)
+float distToCoordinate (Coordinate const tank0Loc, Coordinate const target)
 {
 	return sqrt(pow(tank0Loc.x - target.x, 2) + pow(tank0Loc.y - target.y, 2));
 }
 
+bool targetInRange(Tank const tank0, Coordinate const target)
+{
+	return (distToRange(tank0.location, target) / BOTSPEED < MAXSECONDSRANGE);
+}
 
 //Angle between tank and target Coordinate in radians
 float angleBetween (Coordinate const & tank0Loc, Coordinate const & target)
@@ -34,7 +38,19 @@ float angleBetween (Coordinate const & tank0Loc, Coordinate const & target)
 	return 0;
 }
 
-
+float minTankTurn (Tank tank0, float calculatedAngle)
+{
+	float turn = calculatedAngle - tank0.angle;
+	//So it will never turn more than PI
+	if(fabs(turn) > PI)
+	{
+		if(turn<0)
+			turn += 2 * PI;
+		else
+			turn -= 2 * PI;
+	}
+	return turn;
+}
 //Coordinate of the closest firing position, used to redefine tank location
 void findFiringPosition (Coordinate const & tank0Loc, Coordinate const & target, Coordinate & firingLocation)
 {

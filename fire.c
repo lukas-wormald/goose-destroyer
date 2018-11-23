@@ -13,7 +13,7 @@ void reload(bool & isAttacked)
 	motor[hopperMotor] = 10;
 	while(nMotorEncoder(hopperMotor) < 360/NUMBALLS-1)// && !isAttacked)
 	{
-		isAttacked = attacked();
+		isAttacked = attacked(isAttacked);
 	}
 	motor[hopperMotor] = 0;
 }
@@ -23,9 +23,9 @@ void fire(bool & isAttacked)
 {
 	nMotorEncoder[firingMotor] = 0;
 	motor[firingMotor] = FIRESPEED;
-	while(nMotorEncoder[firingMotor] < 718) //720 because NXT motor only rotated halfway with 360
+	while(nMotorEncoder[firingMotor] < 718) //720 because geared up
 	{				//-10 for offset
-		isAttacked = attacked();
+		isAttacked = attacked(isAttacked);
 	}
 	motor[firingMotor] = 0;
 	reload(isAttacked);

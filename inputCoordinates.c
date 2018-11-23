@@ -1,6 +1,4 @@
-//////CANNOT RETURN A POINT!!!
-//// MUST PASS BY REFERENCE AN EXISTING COORDINATE VAR
-//^Fixed
+//TESTED AND WORKS
 
 #include "initialization.c"
 
@@ -32,13 +30,13 @@ void getCoordinates(Coordinate coord)
 		clearPixel(xLoc+WIDTH/2,yLoc+HEIGHT/2);
 
 		if(buttonPressed == buttonRight)
-			yLoc--;
+			yLoc-=10;
 		else if (buttonPressed == buttonLeft)
-			yLoc++;
+			yLoc+=10;
 		else if (buttonPressed == buttonUp)
-			xLoc++;
+			xLoc+=10;
 		else if (buttonPressed == buttonDown)
-			xLoc--;
+			xLoc-=10;
 		if(buttonPressed != buttonEnter)
 		{
 			setPixel(xLoc+WIDTH/2,yLoc+HEIGHT/2);

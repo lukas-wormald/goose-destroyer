@@ -1,6 +1,7 @@
 #include "PC_FileIO.c"
 #ifndef CALCULATE_STATS
 #define CALCULATE_STATS
+
 int ammoRemaining = 0;
 
 
