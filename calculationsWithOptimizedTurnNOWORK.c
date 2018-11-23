@@ -34,6 +34,25 @@ float angleBetween (Coordinate const & tank0Loc, Coordinate const & target)
 	return 0;
 }
 
+float minTankTurn (Tank const & tank0, float calculatedAngle)
+{
+	float turn = calculatedAngle - tank0.angle;
+	//So it will never turn more than PI
+	if(fabs(turn) > PI)
+	{
+		if(turn<0)
+		{
+			displayString(10, "Adjusting + PI");
+			turn = turn + (PI) + (PI);
+		}
+		else if(turn>0)
+		{
+			turn -= (2 * (PI));
+			displayString(10, "Adjusting - PI");
+		}
+	}
+	return turn;
+}
 
 //Coordinate of the closest firing position, used to redefine tank location
 void findFiringPosition (Coordinate const & tank0Loc, Coordinate const & target, Coordinate & firingLocation)

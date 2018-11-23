@@ -35,9 +35,8 @@ void drive (float distance, bool & isAttacked) //TESTED Can Drive set distances
 void turnAngle (Tank & tank0, float rotation, bool & isAttacked)  //TESTED  WORKS BEST WHEN SLOWER SPEED
 {
 	//1 counter clockwise
-	float turn = minTankTurn(tank0, rotation);
 	int direction = 1;
-	if (turn<0)
+	if (rotation-tank0.angle<0)
 	{
 		//turn clockwise
 		direction = -1;
@@ -47,23 +46,21 @@ void turnAngle (Tank & tank0, float rotation, bool & isAttacked)  //TESTED  WORK
 	motor[rightMotor] = direction * TURNSPEED;
 	resetGyro(gyro);
 	wait1Msec(20);
-	displayString(2, "Direction: %f       ", turn);
-	while(direction*turn > direction * -getGyroRadians())
+	displayString(2, "Calculated Angle: %f       ", rotation);
+	while(direction*rotation > direction * (-getGyroRadians()+tank0.angle))
 	{
 		isAttacked = attacked();
 	}
 	motor[leftMotor] = motor[rightMotor] = 0;
 	displayString(3, "Gyro: %f       ", -getGyroRadians());
-	tank0.angle=turn;
+	tank0.angle=rotation;
 }
 
 //Tank will stop on specific Coordinate
 void moveToCoordinate(Tank & tank0, Coordinate const & destination, bool & isAttacked)
 {
-	displayString(8, "Old Angle: %f", tank0.angle);
 	turnAngle(tank0, angleBetween(tank0.location, destination), isAttacked);
 	drive(distToCoordinate(tank0.location, destination), isAttacked);
-	displayString(9, "New Angle: %f", tank0.angle);
 	tank0.location.x = destination.x;
 	tank0.location.y = destination.y;
 }
