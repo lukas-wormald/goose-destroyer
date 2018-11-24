@@ -1,3 +1,4 @@
+// commenting complete
 //this will be the first function run after the setup
 #ifndef WELCOME
 #define WELCOME
@@ -12,6 +13,7 @@ void beginProgramMenu() //displays the start of the program
 }
 
 //fills the array with the targets
+// struct that contains an array of locations
 int getTargets(locArr & targets)
 {
 	int totalTargets = 0;
@@ -24,14 +26,14 @@ int getTargets(locArr & targets)
 	while(userInput != buttonUp && userInput != buttonDown);
 
 	if(userInput == buttonUp)
-	{//file coordinates
+	{	// input file coordinates
 		TFileHandle finCoords;
-		openReadPC(finCoords,"CoordinateTesting.txt");
+		openReadPC(finCoords,"geeseLocations.txt");
 		totalTargets = readCoordinates(targets, finCoords); //in TankFileRead.c
 		closeFilePC(finCoords);
 	}
 	else
-	{//user input screen coordinates
+	{	//user input screen coordinates
 		totalTargets = getMultipleCoordinates(targets); //in inputCoordinates.c
 	}
 	return totalTargets;
