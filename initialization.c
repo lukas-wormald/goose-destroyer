@@ -3,10 +3,9 @@
 
 //Constants
 const int MAXNUMTARGETS = 8;
-//Avg firing distance of robot
-const float RANGE = 55; //distance the the robot will shoot
+const float RANGE = 55; //distance the the robot will shoot (average)
 const float OFFSETANGLE = 18;//degrees CCW, the offset that the ball shoots from the center of the bot
-const int SPEED = -55; //because motors mounted backwards
+const int SPEED = -55; // -ve because motors mounted backwards
 const int TURNSPEED = SPEED;
 const int NUMBALLS = 8; //number of balls that the tank starts with
 const int FIRESPEED = 100;
@@ -15,7 +14,7 @@ const float GEARRADIUS = 2.52; //calculated based on distance traveled with curr
 const int GOOSETOL = 20;
 const float TOL = 1*pow(10,-2); //tolerance used for comparing floats
 
-//Range constants
+//Limit constants
 const float BOTSPEED = 100/4.9; //centimeters / second used to calculate shots out of range
 const int MAXSECONDSRANGE = 5*60; //5 minutes
 
@@ -27,7 +26,6 @@ const tMotor firingMotor = motorC; //NXT large
 
 //Naming Sensors
 const tSensors touch1 = S1;
-//const tSensors touch2 = S2;
 const tSensors ultraSonic = S3;
 const tSensors gyro = S4;
 
@@ -35,15 +33,16 @@ const tSensors gyro = S4;
 const int WIDTH = 178;
 const int HEIGHT = 128;
 
-//Notes on timers
-//T1 used for mission timing
-//T2 used for waiting for goose checking
+//Timers
+const TTimers missionTimer = T1;
+const TTimers gooseCheckTimer = T2;
 
-// Structs
+// STRUCTS
 
 //Stores an X and Y value that represent the location of the tank on a standard cartesian plane, in cm
 typedef struct
 {
+	//One letter variable names chosen because it represents X,Y locations and is easy to type.
 	float x;
 	float y;
 }Coordinate;
@@ -55,10 +54,21 @@ void initializeCoordinate(Coordinate coord)
 }
 
 //Stores an array of coordinates that will represent all the targets that must be hit
+//This is required in order to pass an array of locations to functions
 typedef struct
 {
 	Coordinate locations[MAXNUMTARGETS];
-}locArr;
+}locArr; //is a structs that contains an array of locations
+
+//initialize an array that is wrapped in a struct
+void initializeLocArrStruct(locArr & setupStruct)
+{
+	for(int index = 0; index < MAXNUMTARGETS; index++)
+	{
+		setupStruct.locations[index].x = 0;
+		setupStruct.locations[index].y = 0;
+	}
+}
 
 //tank position data
 //a coordinate in cm, and an angle from +x axis that the tank is currently facing, if it were at the origin
@@ -105,7 +115,6 @@ void initializeStats(Stats data)
 void setupSensors()
 {
 	SensorType[touch1] = sensorEV3_Touch;
-	//SensorType[touch2] = sensorEV3_Touch;
 	SensorType[ultraSonic] = sensorEV3_Ultrasonic;
 	SensorType[gyro] = sensorEV3_Gyro;
 	wait1Msec(50);
@@ -118,17 +127,9 @@ void setupSensors()
 	wait1Msec(50);
 }
 
-//initialize the targets array that is wrapped in a struct
-void initializeLocArrStruct(locArr & setupStruct)
-{
-	for(int index = 0; index < MAXNUMTARGETS; index++)
-	{
-		setupStruct.locations[index].x = 0;
-		setupStruct.locations[index].y = 0;
-	}
-}
-
 //waits for a button to be pressed and returns that button
+//this is widely used throughout the program, so having it in the initialization function
+//allows us to include fewer files when testing the individual functions
 TEV3Buttons getButtonPressed()
 {
     TEV3Buttons buttonPressed = buttonNone;
