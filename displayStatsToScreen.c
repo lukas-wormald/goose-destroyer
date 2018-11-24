@@ -1,9 +1,11 @@
+// comenting in progress
 #include "initialization.c"
 #include "calculateStats.c"
 
 #ifndef STATSTOSCREEN
 #define STATSTOSCREEN
 
+// function that displays the mission stats to the screen (same as output file)
 void displayStatsToScreen(Stats mission)
 {
 	//display stats
