@@ -1,40 +1,43 @@
-bool gooseAttack = true;
-int totalTargets = 0;
-int targetsShot = 0;
+#include "initialization.c"
+#include "calculateStats.c"
 
-void displayStatsToScreen(int runTime, int numGeeseShot, bool needReload, string missionStatus, int ammoRemaining)
+#ifndef STATSTOSCREEN
+#define STATSTOSCREEN
+
+void displayStatsToScreen(Stats mission)
 {
 	//display stats
 	eraseDisplay();
-	calculateStats();
+	calculateStats(mission);
 	displayString(2, "MISSION STATS:");
 	//if no bullets were shot
-	if (ammoRemaining == 8 && gooseAttack == false)
+	if (mission.ammoRemaining == 8 && mission.isAttacked == false)
 	{
 		displayString(4, "No targets were shot");
 	}
-	else if (ammoRemaining < 8 && needReload == true)
+	else if (mission.ammoRemaining < 8 && mission.needReload == true)
 	{
-		displayString(4, "Mission took : %d", runTime, "seconds");
+		displayString(4, "Mission took : %d", mission.runTime, "seconds");
 		displayString(5, "Need to Reload");
 	}
-	else if (ammoRemaining == 8 && needReload == false)
+	else if (mission.ammoRemaining == 8 && mission.needReload == false)
 	{
-		displayString(4, "Mission took : %d", runTime, "seconds");
+		displayString(4, "Mission took : %d", mission.runTime, "seconds");
 		displayString(5, "No reloading necessary");
 	}
 
 	//
-	displayString(3, "Targets Shot: %d", numGeeseShot);
+	displayString(3, "Targets Shot: %d", mission.numGeeseShot);
 
 	//mission is a success only if all targets are shot
-	if (totalTargets - targetsShot == 0)
+	if (mission.totalTargets - mission.targetsShot == 0)
 		displayString(6, "MISSION: Success!");
 	else
 		displayString(6, "MISSION: Failure");
 }
 
-
+//Testing main
+/*
 task main()
 {
 	int runTime = 0;
@@ -45,3 +48,6 @@ task main()
 
 	displayStatsToScreen(runTime,numGeeseShot,needReload,missionStatus,ammoRemaining);
 }
+*/
+
+#endif

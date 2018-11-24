@@ -12,6 +12,8 @@ void calculateStats(Stats mission)
 	TFileHandle fout;
 	bool fileOkay = openWritePC(fout, "stats.txt");
 
+	mission.needReload = (mission.ammoRemaining < NUMBALLS);
+
 	mission.runTime = time1[T1] / 1000;
 	writeLongPC(fout,mission.runTime);
 	writeTextPC(fout, " seconds");

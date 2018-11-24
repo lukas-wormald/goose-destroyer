@@ -10,5 +10,6 @@
 #include "gooseCheck.c"
 #include "inputCoordinates.c"
 #include "welcome.c"
+#include "defense.c"
 
 #endif

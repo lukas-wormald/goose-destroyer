@@ -1,8 +1,8 @@
 //final main with all versions of input
 #include "includes.c"
 
-//fix coordinates
-//check for goose turn back angle - this will require a little more reworking
+//fix coordinates - get proper calculations file!!
+//check for goose turn back angle - this will require a little more reworking, not tested yet
 
 task main()
 {
@@ -28,15 +28,16 @@ task main()
 		if(targetInRange(gooseDestroyer, targets.locations[currentTarget]))
 		{
 			moveToFiringLocation(gooseDestroyer, targets.locations[currentTarget], mission.isAttacked);
-			shootTheGoose(mission.ammoRemaining, gooseDestroyer, mission.isAttacked);
+			shootTheGoose(mission, gooseDestroyer);
 			mission.targetsShot++;
 		}
 		else
 			mission.outOfRange++;
 	}
 
+	if(mission.isAttacked && mission.ammoRemaining > 0)
+		defend(gooseDestroyer, mission);
+
 	returnHome(gooseDestroyer, mission.isAttacked);
-	//mission.runTime = time1[T1] / 1000; //this is taken care of in calculate stats
-	//calculateStats(runTime, missionStatus, targetsShot, totalTargets, isAttacked, outOfRange);
 	calculateStats(mission);
 }

@@ -4,12 +4,13 @@
 //Constants
 const int MAXNUMTARGETS = 8;
 //Avg firing distance of robot
-const float RANGE = 65; //distance the the robot will shoot
-const float OFFSETANGLE = 14;//degrees CCW, the offset that the ball shoots from the center of the bot
-const int SPEED = -50; //because motors mounted backwards
+const float RANGE = 55; //distance the the robot will shoot
+const float OFFSETANGLE = 18;//degrees CCW, the offset that the ball shoots from the center of the bot
+const int SPEED = -55; //because motors mounted backwards
 const int TURNSPEED = SPEED;
 const int NUMBALLS = 8; //number of balls that the tank starts with
 const int FIRESPEED = 100;
+const int HOPPERSPEED = 5;
 const float GEARRADIUS = 2.52; //calculated based on distance traveled with currently set gear radius
 const int GOOSETOL = 20;
 const float TOL = 1*pow(10,-2); //tolerance used for comparing floats
@@ -78,6 +79,7 @@ typedef struct
 	int runTime;
 	int numGeeseShot;
 	int ammoRemaining;
+	bool needReload;
 	int totalTargets;
 	int targetsShot;
 	bool isAttacked;
@@ -90,6 +92,7 @@ void initializeStats(Stats data)
 		data.runTime = 0;
 		data.numGeeseShot = 0;
 		data.ammoRemaining = NUMBALLS;
+		data.needReload = false;
 		data.totalTargets = 0;
 		data.targetsShot = 0;
 		data.isAttacked = false;

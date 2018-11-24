@@ -1,5 +1,6 @@
 #include "initialization.c"
 #include "fire.c"
+#include "tankMovements.c"
 
 #ifndef GOOSE_CHECK
 #define GOOSE_CHECK
@@ -12,22 +13,28 @@ bool checkForGoose(bool & isAttacked)
 		wait1Msec (1);
 		isAttacked = attacked(isAttacked);
 	}
-	displayString(5, "%d", SensorValue(ultraSonic));
-	return (RANGE - GOOSETOL < SensorValue(ultraSonic) && RANGE + GOOSETOL > SensorValue(ultraSonic));
+	//displayString(5, "%d", SensorValue(ultraSonic));
+	int distance = SensorValue(ultraSonic);
+	return (RANGE - GOOSETOL < distance && RANGE + GOOSETOL > distance);
 }
 
 //firing procedure
-void shootTheGoose(int & ammoRemaining, Tank & tank1, bool & isAttacked)
+void shootTheGoose(Stats mission, Tank & tank0)
 {
 	//Always shoots one ball at target area
 	bool gooseIsThere = true;
-	while (gooseIsThere && !isAttacked)
+	while (gooseIsThere && !mission.isAttacked && mission.ammoRemaining > 0)
 	{
-		fire(isAttacked);
-		ammoRemaining --;
-		gooseIsThere = checkForGoose(isAttacked);
-		if (gooseIsThere)
+		fire(mission.isAttacked);
+		mission.ammoRemaining--;
+
+		//turn first, then check for goose - WORKS!
+		turnAngle(tank0, tank0.angle+degToRad(OFFSETANGLE), mission.isAttacked);
+
+		gooseIsThere = checkForGoose(mission.isAttacked);
+		if (gooseIsThere)//if the goose is still there, turn back to shoot it.
 		{
+			turnAngle(tank0, tank0.angle-degToRad(OFFSETANGLE), mission.isAttacked);
 		}
 	}
 }

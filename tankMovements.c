@@ -27,7 +27,7 @@ void drive (float distance, bool & isAttacked) //TESTED Can Drive set distances
 	motor[leftMotor] = motor[rightMotor] = direction * SPEED; //Needs to be negative to go forward
 	while(direction * (-nMotorEncoder[leftMotor] / 360.0 * GEARRADIUS * 2 * PI) < direction * distance )
 	{
-		isAttacked = attacked();
+		isAttacked = attacked(isAttacked);
 	}
 	motor[leftMotor] = motor[rightMotor] = 0;
 }
@@ -49,7 +49,7 @@ void turnAngle (Tank & tank0, float rotation, bool & isAttacked)  //TESTED  WORK
 	displayString(2, "Calculated Angle: %f       ", rotation);
 	while(direction*rotation > direction * (-getGyroRadians()+tank0.angle))
 	{
-		isAttacked = attacked();
+		isAttacked = attacked(isAttacked);
 	}
 	motor[leftMotor] = motor[rightMotor] = 0;
 	displayString(3, "Gyro: %f       ", -getGyroRadians());
@@ -72,8 +72,7 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 	drive(distToRange(tank0.location, target), isAttacked);
 	turnAngle(tank0, tank0.angle-degToRad(OFFSETANGLE), isAttacked); //compensate for consistently angled firing
 	Coordinate finalLocation;
-	finalLocation.x=0;
-	finalLocation.y=0;
+	initializeCoordinate(finalLocation);
 	findFiringPosition(tank0.location, target, finalLocation);
 	tank0.location.x += finalLocation.x;
 	tank0.location.y += finalLocation.y;
@@ -84,8 +83,7 @@ void moveToFiringLocation(Tank & tank0, Coordinate const & target, bool & isAtta
 void returnHome(Tank & tank0, bool & isAttacked)
 {
 	Coordinate home;
-	home.x=0;
-	home.y=0;
+	initializeCoordinate(home);
 	moveToCoordinate(tank0, home, isAttacked);
 	turnAngle(tank0, 0, isAttacked);
 }
