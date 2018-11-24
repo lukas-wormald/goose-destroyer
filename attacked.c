@@ -4,10 +4,12 @@
 
 bool attacked(bool const & isAttacked)
 {
-	//if (SensorValue(touch1) == 1 || SensorValue(touch2) == 1)
-	if (SensorValue(touch1) == 1){
+	//checks if the goose is still there
+	if (SensorValue(touch1) == 1)
+	{
 		return true;
 	}
+	//if it was already attacked, it will return true again
 	return isAttacked;
 }
 
