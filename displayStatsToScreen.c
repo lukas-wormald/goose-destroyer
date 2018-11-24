@@ -1,4 +1,4 @@
-// comenting in progress
+// commenting complete
 #include "initialization.c"
 #include "calculateStats.c"
 
